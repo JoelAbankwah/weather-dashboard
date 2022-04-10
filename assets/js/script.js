@@ -53,6 +53,8 @@ var getCurrentWeather = function(weather) {
     var humidityEl = document.querySelector("#humidity");
     humidityEl.textContent = "Humidity: " + weather.current.humidity + ' %';
 
+    var UVpEl = document.querySelector('#uv-index-name')
+    UVpEl.textContent = 'UV Index: '
     var UVEl = document.querySelector("#uv-index");
     UVEl.textContent = weather.current.uvi;
 

@@ -18,6 +18,11 @@
     background-image: linear-gradient(45deg, #519ce1 0%, #3998db 30%, #1f1496 80%);
 }
 
+.uv-index {
+  width: 3rem;
+  height: 1.85rem;
+}
+
 .btn {
     font-size: 1.3rem;
     text-decoration:none;
