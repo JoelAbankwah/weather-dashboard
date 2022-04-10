@@ -21,7 +21,17 @@
                     <form id="user-form" class="user-form">
                         <input name="city" id="city" type="text" class="form-input" placeholder="San Diego"/>
                         <button type="submit" id='city-search' class="btn mb-3">Search</button>
-                      </form>
+                    </form>
+                    <div id="recommended-cities">
+                        <button class="bg-secondary btn w-100 my-4">Austin</button>
+                        <button class="bg-secondary btn w-100 mb-4">Chicago</button>
+                        <button class="bg-secondary btn w-100 mb-4">New York</button>
+                        <button class="bg-secondary btn w-100 mb-4">Orlando</button>
+                        <button class="bg-secondary btn w-100 mb-4">San Francisco</button>
+                        <button class="bg-secondary btn w-100 mb-4">Seattle</button>
+                        <button class="bg-secondary btn w-100 mb-4">Denver</button>
+                        <button class="bg-secondary btn w-100 mb-4">Atlanta</button>
+                    </div>
                 </div>
 
                 <div class="col-12 col-lg-8 w-100">
@@ -33,7 +43,7 @@
                         <p id="temp"></p>
                         <p id="wind"></p>
                         <p id='humidity'></p>
-                        <p>UV Index: <a id="uv-index" class="text-light p-2 rounded"></a></p>
+                        <p>UV Index: <a id="uv-index" class="text-light py-1 px-3 rounded"></a></p>
                     </div>
                     <div>
                         <h2 class="font-weight-bold text-dark mt-3">5 Day Forecast:</h2>

@@ -1,6 +1,7 @@
 var userFormEl = document.querySelector('#user-form');
 var cityEl = document.querySelector('#city');
 var forecastEl = document.querySelector("#five-day-forcast");
+var popCitiesEl = document.querySelector("#recommended-cities")
 
 var getCityCoordinates = function(event){
     event.preventDefault();
@@ -71,7 +72,7 @@ var getFiveDayForecast = function(weather){
     removeAllChildNodes(forecastEl);
     for (var i=0; i < 5; i++){
         var cardEl = document.createElement('div');
-        cardEl.setAttribute('class', 'bg-dark text-light card w-100 mr-4 p-2')
+        cardEl.setAttribute('class', 'card-el text-light card w-100 mr-4 p-2')
 
         var dateEl = document.createElement('h3');
         dateEl.setAttribute('class', 'mb-0 font-weight-bold')
@@ -106,9 +107,16 @@ var getFiveDayForecast = function(weather){
     }
 }
 
+var getPopCityWeather = function(event) {
+    //event.preventDefault();
+    cityEl.value = event.target.textContent;
+    getCityCoordinates(event)
+}
+
 function removeAllChildNodes(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.firstChild);
     }
 }
 userFormEl.addEventListener("submit", getCityCoordinates);
+popCitiesEl.addEventListener('click', getPopCityWeather);
