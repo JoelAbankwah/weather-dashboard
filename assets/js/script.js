@@ -5,7 +5,7 @@ var forecastEl = document.querySelector("#five-day-forcast");
 var getCityCoordinates = function(event){
     event.preventDefault();
     if (cityEl.value){
-        var coordinatesApiURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityEl.value.toLowerCase() + "&appid=0c03238cfd49d5089791230ebb0a1f08"
+        var coordinatesApiURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityEl.value.toLowerCase() + "&appid=0c03238cfd49d5089791230ebb0a1f08"
         fetch(coordinatesApiURL).then(function(response){
             if (response.ok) {
                 response.json().then(function(data) {
@@ -22,7 +22,7 @@ var getCityCoordinates = function(event){
 }
 
 var getCityWeather = function(lat, lon) {
-    apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=0c03238cfd49d5089791230ebb0a1f08'
+    apiUrl = 'http://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=0c03238cfd49d5089791230ebb0a1f08'
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
@@ -38,7 +38,7 @@ var getCurrentWeather = function(weather) {
    cityNameEl.textContent = cityEl.value + " " + moment().format('(M/D/YYYY)');
 
    var iconImg = document.getElementById('weather-icon');
-   iconImg.setAttribute('src', 'https://openweathermap.org/img/wn/' + weather.current.weather[0].icon + '@2x.png');
+   iconImg.setAttribute('src', 'http://openweathermap.org/img/wn/' + weather.current.weather[0].icon + '@2x.png');
    iconImg.setAttribute('class', 'mark p-0 icon');
 
    cityEl.value = '';
@@ -80,7 +80,7 @@ var getFiveDayForecast = function(weather){
         cardEl.appendChild(dateEl);
 
         var iconEl = document.createElement('img');
-        iconEl.setAttribute('src', 'https://openweathermap.org/img/wn/' + weather.daily[i].weather[0].icon + '@2x.png');
+        iconEl.setAttribute('src', 'http://openweathermap.org/img/wn/' + weather.daily[i].weather[0].icon + '@2x.png');
         iconEl.setAttribute('class', 'mark p-0 icons mb-2');
 
         cardEl.appendChild(iconEl);
