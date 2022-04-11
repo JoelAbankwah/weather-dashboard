@@ -5,11 +5,13 @@ var popCitiesEl = document.querySelector("#recommended-cities")
 
 var getCityCoordinates = function(event){
     event.preventDefault();
+    //checks if the cityEl has a value, and if it does it appends that value to the apiUrl to recieve the longitude and lattitude
     if (cityEl.value){
         var coordinatesApiURL = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityEl.value.toLowerCase() + "&appid=0c03238cfd49d5089791230ebb0a1f08"
         fetch(coordinatesApiURL).then(function(response){
             if (response.ok) {
                 response.json().then(function(data) {
+                    //grabs that data and runs the getCityWeather function with the lon and lat as the parameters
                     var lattitude = data[0].lat
                     var longitude = data[0].lon
                     getCityWeather(lattitude, longitude)
@@ -18,16 +20,17 @@ var getCityCoordinates = function(event){
         })
     }
     else {
-        console.log('nah')
+        console.log('The search bar was empty')
     }
 }
 
 var getCityWeather = function(lat, lon) {
+    // gets the cities weather then runs the getCurrentWeather with the data as the parameter
     apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + lat + '&lon=' + lon + '&units=imperial&appid=0c03238cfd49d5089791230ebb0a1f08'
     fetch(apiUrl).then(function(response) {
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data)
+                //console.log(data)
                 getCurrentWeather(data)
             })
         }
@@ -35,15 +38,18 @@ var getCityWeather = function(lat, lon) {
 }
 
 var getCurrentWeather = function(weather) {
+    // sets the cityNameEl to the cityEl value + the current date
    var cityNameEl = document.querySelector("#city-name");
    cityNameEl.textContent = cityEl.value + " " + moment().format('(M/D/YYYY)');
 
+    // sets the weather icon img to the current weather icon then clears the cityEl.value
    var iconImg = document.getElementById('weather-icon');
    iconImg.setAttribute('src', 'https://openweathermap.org/img/wn/' + weather.current.weather[0].icon + '@2x.png');
    iconImg.setAttribute('class', 'mark p-0 icon');
 
    cityEl.value = '';
-
+    
+   // filters through the data and sets that as the p elements in the current weather div
     var tempEl = document.querySelector("#temp");
     tempEl.textContent = "Temp: " +  weather.current.temp + '°F';
 
@@ -58,6 +64,7 @@ var getCurrentWeather = function(weather) {
     var UVEl = document.querySelector("#uv-index");
     UVEl.textContent = weather.current.uvi;
 
+    // checks the air quality index and depending on the air quality, it changes the background color then runs the getFiveDayForecast with the weather data as the parameter
     if (weather.current.uvi <= 2) {
         UVEl.classList.add('bg-success');
     }
@@ -71,6 +78,7 @@ var getCurrentWeather = function(weather) {
 };
 
 var getFiveDayForecast = function(weather){
+    //clears the information by removing all child elements of the forecastEl
     removeAllChildNodes(forecastEl);
     for (var i=0; i < 5; i++){
         var cardEl = document.createElement('div');
@@ -110,9 +118,12 @@ var getFiveDayForecast = function(weather){
 }
 
 var getPopCityWeather = function(event) {
-    //event.preventDefault();
-    cityEl.value = event.target.textContent;
-    getCityCoordinates(event)
+    if (event.target.className === 'bg-secondary btn w-100 mb-4'){
+        cityEl.value = event.target.textContent;
+        getCityCoordinates(event)
+    }  else {
+        console.log('')
+    }  
 }
 
 function removeAllChildNodes(parent) {
