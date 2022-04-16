@@ -3,6 +3,47 @@ var cityEl = document.querySelector('#city');
 var forecastEl = document.querySelector("#five-day-forcast");
 var popCitiesEl = document.querySelector("#recommended-cities")
 
+var updateRecentCities = function(city){
+    var recentCities = JSON.parse(localStorage.getItem('recentcities'))
+    if (!recentCities) {
+        recentCities = {
+            cities: ['Austin', 'Chicago', 'New York','Orlando', 'San Francisco', 'Seattle', 'Denver', 'Atlanta']
+        }
+        for (var j=0; j < recentCities.cities.length; j++) {
+            if (city === recentCities.cities[j]) {
+                return
+            }
+        }
+        if (recentCities.cities.length <= 8){
+            recentCities.cities.pop();
+            recentCities.cities.unshift(city);
+        }
+        else {
+            recentCities.cities.unshift(city)
+        }       
+    }
+    else {
+        for (var j=0; j < recentCities.cities.length; j++) {
+            if (city === recentCities.cities[j]) {
+                console.log('City is already on recents')
+                return
+            }
+        }
+        if (recentCities.cities.length <= 8){
+            recentCities.cities = recentCities.cities.slice(0, -1);;
+            recentCities.cities.unshift(city);
+        }
+        else {
+            recentCities.cities.unshift(city)
+        }   
+    }
+    localStorage.setItem('recentcities', JSON.stringify(recentCities));
+    for(var i=0; i<recentCities.cities.length; i++){
+        var buttonEl = document.querySelector("#city-" + JSON.stringify(i))
+        buttonEl.textContent = recentCities.cities[i]
+    }
+}
+
 var getCityCoordinates = function(event){
     event.preventDefault();
     //checks if the cityEl has a value, and if it does it appends that value to the apiUrl to recieve the longitude and lattitude
@@ -15,6 +56,7 @@ var getCityCoordinates = function(event){
                     var lattitude = data[0].lat
                     var longitude = data[0].lon
                     getCityWeather(lattitude, longitude)
+                    updateRecentCities(cityEl.value)
                 })
             }
         })
@@ -80,13 +122,13 @@ var getCurrentWeather = function(weather) {
 var getFiveDayForecast = function(weather){
     //clears the information by removing all child elements of the forecastEl
     removeAllChildNodes(forecastEl);
-    for (var i=0; i < 5; i++){
+    for (var i=1; i < 6; i++){
         var cardEl = document.createElement('div');
         cardEl.setAttribute('class', 'card-el text-light card w-100 mr-4 p-2')
 
         var dateEl = document.createElement('h3');
         dateEl.setAttribute('class', 'mb-0 font-weight-bold')
-        dateEl.textContent = moment().add(i + 1, 'd').format('M/D/YYYY')
+        dateEl.textContent = moment().add(i, 'd').format('M/D/YYYY')
 
         cardEl.appendChild(dateEl);
 
@@ -131,5 +173,18 @@ function removeAllChildNodes(parent) {
         parent.removeChild(parent.firstChild);
     }
 }
+
+var getRecentCities = function(){
+    var recentCities = JSON.parse(localStorage.getItem('recentcities'))
+    if (!recentCities || recentCities === 'null') {
+        return
+    }   
+    for(var i=0; i<recentCities.cities.length; i++){
+        var buttonEl = document.querySelector("#city-" + JSON.stringify(i))
+        buttonEl.textContent = recentCities.cities[i]
+    }
+}
+
 userFormEl.addEventListener("submit", getCityCoordinates);
 popCitiesEl.addEventListener('click', getPopCityWeather);
+getRecentCities();
